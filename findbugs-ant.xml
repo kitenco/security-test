@@ -38,7 +38,7 @@
   		<dependency-check applicationname="Security Test"
                       autoupdate="true"
                       reportoutputdirectory="${basedir}"
-                      reportformat="HTML"
+                      reportformat="HTML">
 
         <fileset dir="src/lib">
             <include name="**/*.jar"/>
