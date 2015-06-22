@@ -1,0 +1,48 @@
+<project name="FindBugs Check">
+
+<property name="src" location="src"/>
+  <property name="build" location="build"/>
+  <property name="dist"  location="dist"/>
+
+<property name="lib.dir"     value="src/lib"/>
+
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+    </path>
+
+<property name="findbugs.home" value="/opt/findbugs-3.0.1-rc2" /> 
+<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask"/>
+<taskdef name="dependency-check" classname="org.owasp.dependencycheck.taskdefs.DependencyCheckTask"/>
+
+<target name="init">
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="compile" depends="init"
+        description="compile the source " >
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac srcdir="${src}" destdir="${build}" classpathref="classpath" />
+  </target>
+
+  <target name="findbugs" depends="compile">
+    <findbugs home="${findbugs.home}"
+              output="xml"
+              outputFile="findbugs-analyse.xml" >
+      <auxClasspath path="${basedir}/src/lib/*.jar" />
+      <sourcePath path="${basedir}/src/main" />
+      <class location="${build}" /> 
+    </findbugs>
+  </target>
+  
+  <target name="dependency-check" depends="compile">
+  		<dependency-check applicationname="Security Test"
+                      autoupdate="true"
+                      reportoutputdirectory="${basedir}"
+                      reportformat="HTML"
+
+        <fileset dir="src/lib">
+            <include name="**/*.jar"/>
+        </fileset>
+    </dependency-check>
+  </target>
+</project>
