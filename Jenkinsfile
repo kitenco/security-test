@@ -1,8 +1,8 @@
 pipeline {
     agent any
     tools {
-        maven 'Maven 3.3.9'
-        jdk 'jdk8'
+        maven 'M3'
+        jdk 'jdk11'
     }
     stages {
         stage ('Initialize') {
@@ -11,7 +11,6 @@ pipeline {
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
                 '''
-                git 'https://github.com/kitenco/security-test.git'
             }
         }
 
