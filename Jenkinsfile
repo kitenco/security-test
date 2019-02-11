@@ -34,7 +34,7 @@ pipeline {
             }
             post {
                 success {
-                    checkstyle = scanForIssues tool: [$class: 'CheckStyle'], pattern: '**/target/checkstyle-result.xml'
+                    scanForIssues tool: [$class: 'CheckStyle'], pattern: '**/target/checkstyle-result.xml'
                     publishIssues issues:[checkstyle], unstableTotalAll:1
                 }
             }
