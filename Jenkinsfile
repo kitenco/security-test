@@ -24,7 +24,6 @@ pipeline {
         stage ('Dependency Check') {
             steps {
                 sh 'mvn org.owasp:dependency-check-maven:check -Ddependency-check-format=XML'
-                dependencyCheckPublisher canComputeNew: false, defaultEncoding: '', healthy: '', pattern: '', unHealthy: ''
             }
         }
 
@@ -43,6 +42,8 @@ pipeline {
                 recordIssues enabledForFailure: true, tool: spotBugs()
                 recordIssues enabledForFailure: true, tool: cpd(pattern: '**/target/cpd.xml')
                 recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
+
+                dependencyCheckPublisher canComputeNew: false, defaultEncoding: '', healthy: '', pattern: '', unHealthy: ''
             }
         }
     }
