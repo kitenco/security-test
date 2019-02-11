@@ -20,5 +20,10 @@ pipeline {
             }
 
         }
+
+        stage ('Dependency Check') {
+            sh 'mvn org.owasp:dependency-check-maven:check -Ddependency-check-format=XML'
+            step([$class: 'DependencyCheckPublisher', unstableTotalAll: '0'])
+        }
     }
 }
