@@ -27,20 +27,12 @@ pipeline {
             }
         }
 
+
         stage ('Analysis') {
             steps {
-                def mvnHome = tool 'mvn-default'
-
-                sh "${mvnHome}/bin/mvn -batch-mode -V -U -e checkstyle:checkstyle pmd:pmd pmd:cpd findbugs:findbugs spotbugs:spotbugs"
-
-                def checkstyle = scanForIssues tool: [$class: 'CheckStyle'], pattern: '**/target/checkstyle-result.xml'
-                publishIssues issues:[checkstyle], unstableTotalAll:1
-            }
-        }
-
-        stage ('Analysis2') {
-            steps {
                 sh 'mvn --batch-mode -V -U -e checkstyle:checkstyle pmd:pmd pmd:cpd findbugs:findbugs com.github.spotbugs:spotbugs-maven-plugin:3.1.7:spotbugs'
+                checkstyle = scanForIssues tool: [$class: 'CheckStyle'], pattern: '**/target/checkstyle-result.xml'
+                publishIssues issues:[checkstyle], unstableTotalAll:1
             }
         }
 
