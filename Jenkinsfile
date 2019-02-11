@@ -33,8 +33,10 @@ pipeline {
                 sh 'mvn --batch-mode -V -U -e checkstyle:checkstyle pmd:pmd pmd:cpd findbugs:findbugs com.github.spotbugs:spotbugs-maven-plugin:3.1.7:spotbugs'
             }
             post {
-                checkstyle = scanForIssues tool: [$class: 'CheckStyle'], pattern: '**/target/checkstyle-result.xml'
-                publishIssues issues:[checkstyle], unstableTotalAll:1
+                success {
+                    checkstyle = scanForIssues tool: [$class: 'CheckStyle'], pattern: '**/target/checkstyle-result.xml'
+                    publishIssues issues:[checkstyle], unstableTotalAll:1
+                }
             }
         }
 
