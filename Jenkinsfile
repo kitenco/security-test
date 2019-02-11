@@ -24,7 +24,7 @@ pipeline {
         stage ('Dependency Check') {
             steps {
                 sh 'mvn org.owasp:dependency-check-maven:check -Ddependency-check-format=XML'
-                step([$class: 'DependencyCheckPublisher', unstableTotalAll: '0'])
+                dependencyCheckPublisher canComputeNew: false, defaultEncoding: '', healthy: '', pattern: '', unHealthy: ''
             }
         }
     }
