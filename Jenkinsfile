@@ -31,14 +31,9 @@ pipeline {
         stage ('Analysis') {
             steps {
                 sh 'mvn --batch-mode -V -U -e checkstyle:checkstyle pmd:pmd pmd:cpd findbugs:findbugs com.github.spotbugs:spotbugs-maven-plugin:3.1.7:spotbugs'
-             }
-             steps {
                 checkstyle = scanForIssues tool: [$class: 'CheckStyle'], pattern: '**/target/checkstyle-result.xml'
-             }
-             steps {
                 publishIssues issues:[checkstyle], unstableTotalAll:1
              }
-
         }
 
         stage('Sanity check') {
